@@ -1,1 +1,7 @@
 weather_report
+weather_report.bak
+
+# Vim swap files
+*.swp
+*.swo
+*.swn
