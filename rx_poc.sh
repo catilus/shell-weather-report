@@ -28,4 +28,10 @@ echo "Forecasted temperature: $fc_temp"
 
 # 3. Extract current Year, Month and Day into variables
 year=$(TZ='$country/$city' date +%Y)
-echo $year
+month=$(TZ='$country/$city' date +%m)
+day=$(TZ='$country/$city' date +%e)
+#echo "$day/$month/$year"
+
+# 4. Merge extracted variables into the report
+echo -e "$year\t$month\t$day\t$obs_temp\t$fc_temp" >> rx_poc.log
+
