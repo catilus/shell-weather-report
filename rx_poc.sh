@@ -25,3 +25,7 @@ echo "Observed temperature: $obs_temp"
 # sed -n '13p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '3p' | grep -oE '^[+-]?[0-9]+' | sed -nE 's/(^[0-9]+)/+\1/p'
 fc_temp=$(sed -n '13p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '3p' | grep -oE '^[+-]?[0-9]+')
 echo "Forecasted temperature: $fc_temp"
+
+# 3. Extract current Year, Month and Day into variables
+year=$(TZ='$country/$city' date +%Y)
+echo $year
