@@ -6,27 +6,42 @@
 city="Casablanca"
 country="Morocco"
 
-# Download weather data without formatting into weather_report file
+## Download weather data (without formatting) into weather_report file
 curl -s wttr.in/$city?T -o weather_report
 
-## Extract temperatures, regardless of format
-# Print lines and line numbers that contain temperatures 
-# Print only line numbers of the previous match
-# Store line numbers in an array
-line_temp=$(grep -nE '°C|°F' weather_report | grep -oE '^[0-9]+')
-echo ${line_temp[@]}
+## Find lines that contain temperature data
+# Store temperature (T) unit into a variable for stdout formatting
+temp_unit=$(grep -oE '°C|°F' weather_report | sed -n '1p')
 
-# Store temperature unit into a variable
+## Extract Ts of interest and store in an array
+# Observed is at line 4 - only one value
+# Next day forecasted is at line 13 - second value for Noon
+# Two day forecasted is at line 23 - ditto
+# Three day forecasted is at line 33 - ditto
+temp_array[0]=$(sed -n '4p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | grep -oE '^[+-]?[0-9]+')
+line=13
 
-# Extracts observed temperature and into a variable (at line 4)
-obs_temp=$(sed -n '4p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '1p' | grep -oE '^[+-]?[0-9]+')
-echo "Observed temperature: $obs_temp"
+for (( i=1; i<=3; i++ )); do
+    temp_array[i]=$(sed -n "${line}p" weather_report | 
+    grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | 
+    sed -n '2p' | 
+    grep -oE '^[+-]?[0-9]+')
+    
+    (( line+=10 ))
+done
+
+# Send temperatures to stdout
+echo "Observed temperature: ${temp_array[0]}$temp_unit"
+echo "Next-day forecasted temperature (12PM): ${temp_array[1]}$temp_unit"
+echo "2-day forecasted temperature (12PM): ${temp_array[2]}$temp_unit"
+echo "3-day forecasted temperature (12PM): ${temp_array[3]}$temp_unit"
+
 
 # 2. Extract forecasted T for next day at noon into a variable (at line 13)
 # Selects line #13 in file --> extracts only the temperature based on format --> extracts for noon (2nd match) --> extracts only the actual temperature --> adds a + sign when temperature does not have one  
 # sed -n '13p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '3p' | grep -oE '^[+-]?[0-9]+' | sed -nE 's/(^[0-9]+)/+\1/p'
-fc_temp=$(sed -n '13p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '3p' | grep -oE '^[+-]?[0-9]+')
-echo "Forecasted temperature: $fc_temp"
+# fc_temp=$(sed -n '13p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '3p' | grep -oE '^[+-]?[0-9]+')
+# echo "Forecasted temperature: $fc_temp$temp_unit"
 
 # 3. Extract current Year, Month and Day into variables
 year=$(TZ='$country/$city' date +%Y)
