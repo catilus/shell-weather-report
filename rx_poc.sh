@@ -6,17 +6,17 @@
 city="Casablanca"
 country="Morocco"
 
-#Downloading weather data without formatting into weather_report file
+# Download weather data without formatting into weather_report file
 curl -s wttr.in/$city?T -o weather_report
 
-# Extracting temperatures regardless of format
-# Prints lines and line numbers in file that contain temperatures: 
-# grep -nE '°C|°F' weather_report
+## Extract temperatures, regardless of format
+# Print lines and line numbers that contain temperatures 
+# Print only line numbers of the previous match
+# Store line numbers in an array
+line_temp=$(grep -nE '°C|°F' weather_report | grep -oE '^[0-9]+')
+echo ${line_temp[@]}
 
-# Returns only line numbers of the previous match
-# grep -oE '^[0-9]+'
-
-# Stores temperature unit into a variable
+# Store temperature unit into a variable
 
 # Extracts observed temperature and into a variable (at line 4)
 obs_temp=$(sed -n '4p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '1p' | grep -oE '^[+-]?[0-9]+')
