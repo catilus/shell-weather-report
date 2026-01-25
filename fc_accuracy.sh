@@ -1,26 +1,39 @@
 #! /bin/bash
 
-# Extract yesterday's forecasted temperature
-yesterday_fc=$(tail -2 rx_poc.log | sed -n '1p' | cut -f5)
+## This script evaluates 1-day temperature forecast accuracy 
+## by comparing today's temperature (at 12PM) with yesterday's temperature (at 12PM).
 
-# Extract today's observed temperature
-today_temp=$(tail -2 rx_poc.log | sed -n '2p' | cut -f4)
+## ----- FUNCTIONS -----
 
-# Data validation on extracted temperatures
-is_integer() {
+# Validation of extracted temperatures
+is_temperature() {
     [[ $1 =~ ^[+-]?[0-9]+$ ]]
 }
-if ! is_integer "$today_temp" || ! is_integer "$yesterday_fc"; then
+
+## ----- SCRIPT -----
+
+## Extract temperatures from log file
+# Today's temperature
+today_temp=$(tail -2 rx_poc.log | sed -n '2p' | cut -f4)
+
+# Yesterday's forecasted temperature
+yesterday_fc=$(tail -2 rx_poc.log | sed -n '1p' | cut -f5)
+
+# Data validation on extracted temperatures
+if ! is_temperature "$today_temp" || ! is_temperature "$yesterday_fc"; then
     echo "ERROR: Invalid temperature data" >> error.log
     exit 1
 fi
 
-# Calculate accuracy
+## Calculate temperature accuracy
 accuracy_temp=$(( today_temp-yesterday_fc ))
-abs_accuracy=${accuracy_temp#-}
+
+# Return the absolute of temperature accuracy for when we are dealing with + or - signs
+abs_accuracy=${accuracy_temp#[+-]}
+
 echo "Temperature accuracy: +/- $abs_accuracy"
 
-# Assign accuracy label
+# Assign label to temperature accuracy
 if (( abs_accuracy <= 1 )); then
     accuracy_label='excellent'	
 elif (( abs_accuracy <= 2 )); then
