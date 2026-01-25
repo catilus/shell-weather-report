@@ -1,5 +1,7 @@
 #! /bin/bash
 
+## Script is run every day at 12PM local time
+
 # City and country variable declaration
 city="Casablanca"
 country="Morocco"
