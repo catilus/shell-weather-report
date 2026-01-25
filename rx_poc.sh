@@ -28,13 +28,12 @@ temp_unit=$(grep -oE '°C|°F' weather_report | sed -n '1p')
 # Two day forecasted is at line 23 - ditto
 # Three day forecasted is at line 33 - ditto
 declare -a temp_array
-temp_array[0]=$(sed -n '4p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | grep -oE '^[+-]?[0-9]+')
+temp_array[0]=$(sed -n '4p' weather_report | grep -oE '[+-]?[0-9]+\([0-9]+\)|[+-]?[0-9]+' | sed -n '1p' | grep -oE '^[+-]?[0-9]+')
 
 if ! is_temperature "${temp_array[0]}"; then
     echo "ERROR: Invalid temperature data extracted at line4." >> error.log
     exit 1
 fi
-
 
 line=13
 
@@ -54,6 +53,7 @@ for (( i=1; i<=3; i++ )); do
 done
 
 # Send temperatures to stdout
+echo "Report for $city, $country:"
 echo "Observed temperature: ${temp_array[0]}$temp_unit"
 echo "Next-day forecasted temperature (12PM): ${temp_array[1]}$temp_unit"
 echo "2-day forecasted temperature (12PM): ${temp_array[2]}$temp_unit"
@@ -68,5 +68,5 @@ day=$(TZ='$country/$city' date +%e)
 # 4. Merge extracted variables into the report
 echo -e "$year\t$month\t$day\t${temp_array[0]}\t${temp_array[1]}\t${temp_array[2]}\t${temp_array[3]}" >> rx_poc.log
 
-
+# 
 

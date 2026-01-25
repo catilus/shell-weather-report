@@ -13,6 +13,9 @@ is_temperature() {
 ## ----- SCRIPT -----
 
 ## Extract temperatures from log file
+# Store temperature (T) unit into a variable for stdout formatting
+temp_unit=$(grep -oE '°C|°F' weather_report | sed -n '1p')
+
 # Today's temperature
 today_temp=$(tail -2 rx_poc.log | sed -n '2p' | cut -f4)
 
@@ -31,7 +34,7 @@ accuracy_temp=$(( today_temp-yesterday_fc ))
 # Return the absolute of temperature accuracy for when we are dealing with + or - signs
 abs_accuracy=${accuracy_temp#[+-]}
 
-echo "Temperature accuracy: +/- $abs_accuracy"
+echo "Temperature accuracy: +/- $abs_accuracy$temp_unit"
 
 # Assign label to temperature accuracy
 if (( abs_accuracy <= 1 )); then

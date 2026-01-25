@@ -1,34 +1,26 @@
 #! /bin/bash
-echo "Statistics on weekly temperature forecasting accuracies:"
 
-# Store last week's accuracies into an array
-weekly_fc=($(tail -7 synthetic_historical_fc_accuracy.tsv | cut -f6)) # --> change filename to 'historical_fc_accuracy.tsv' once we have at least a week of data.
+## This script performs statistics on temperature forecasting accuracies of the last seven days.
 
-# Convert negative values to positive values
-for i in {0..6}; do
-    weekly_fc[$i]=${weekly_fc[$i]#-}
-done
+## ----- SCRIPT -----
 
-# Find min and max temperature accuracies
-min=${weekly_fc[0]}
-max=${weekly_fc[0]}
+# Store last seven days' accuracies into an array
+weekly_acc=($(tail -7 historical_fc_accuracy.tsv | cut -f5))
+#for i in {0..6}; do
+#    weekly_acc[$i]=${weekly_acc[$i]#-}
+#done
+
+# Find best (minimum) and worst (maximum) temperature accuracies
+min=${weekly_acc[0]}
+max=${weekly_acc[0]}
 
 for i in {1..6}; do
-    if (( weekly_fc[i] < min )); then
-        min=${weekly_fc[$i]} 
+    if (( weekly_acc[i] < min )); then
+        min=${weekly_acc[$i]} 
     fi
-    if (( weekly_fc[i] > max )); then
-        max=${weekly_fc[$i]}
+    if (( weekly_acc[i] > max )); then
+        max=${weekly_acc[$i]}
     fi
 done
 
-# Validate data
-#for i in {0..6}; do
-#    echo ${weekly_fc[$i]}
-#done
-
-#for i in {0..6}; do
-#    echo ${weekly_fc[$i]}
-#done
-
-echo "Min: $min, and Max: $max."
+echo "Best accuracy: $min, and worst accuracy: $max."
