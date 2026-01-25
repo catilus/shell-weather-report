@@ -32,3 +32,14 @@ else
 fi
 
 echo "Accuracy range: $accuracy_label"
+
+# Extract current Year, Month and Day into variables for country/city being queried
+city="Casablanca"
+country="Morocco"
+year=$(TZ='$country/$city' date +%Y)
+month=$(TZ='$country/$city' date +%m)
+day=$(TZ='$country/$city' date +%e)
+
+# Append data to report of historical accuracies
+echo -e "$year\t$month\t$day\t$today_temp\t$abs_accuracy\t$accuracy_label" >> historical_fc_accuracy.tsv
+

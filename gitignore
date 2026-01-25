@@ -1,7 +1,7 @@
 weather_report
 weather_report.bak
 error.log
-
+synthetic_historical_fc_accuracy.tsv
 # Vim swap files
 *.swp
 *.swo
