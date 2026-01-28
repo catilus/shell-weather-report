@@ -1,14 +1,19 @@
 # Weather report generation in Shell
 This project stems from the practice final project from Coursera's *Hands-on Introduction to Linux Commands and Shell Scripting course*.
 
-## 1. Concept
+# Table of Contents
+1. [Concept](#concept)
+2. [Scripts](#scripts)
+3. [Integration](#integration)
+
+## 1. Concept <a name="concept"></a>
 The following scripts do the following:
 - pull weather data from [wttr.in]wttr.in for a given city. 
 - extract temperatures of interest (current and forecasted). 
 - evaluate forecast accuracy.
 - perform statistics on weekly forecast accuracies.
 
-## 2. Scripts
+## 2. Scripts <a name="scripts"></a>
 ### Extraction of temperatures and building of the report
 This is done by **`rx_poc.sh`** in the following structure:
 
@@ -65,7 +70,7 @@ This is done by **`weekly_stats.sh`** using the following structure:
 - [ ] Ask user if they want to set the date range on which stats should be done.
 - [ ] Add statistics (mean, median, std).
 
-## 3. Integration
+## 3. Integration <a name="integration"></a>
 Right now, the scripts have to be run by hand by typing the following commands in the command line.
 First, navigate to the downloaded folder:
 ``` cd ./shell-weather-report  ```
