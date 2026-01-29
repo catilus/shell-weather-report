@@ -12,10 +12,12 @@ is_temperature() {
 ## ----- SCRIPT -----
 
 # City and country variable declaration
-city="Casablanca"
-country="Morocco"
+# From user input
+read -p "Enter a country > " country
+read -p "Enter a city > " city
 
 ## Download weather data (without formatting) into weather_report file
+echo "Fetching weather data for $city, $country..."
 curl -s wttr.in/$city?T -o weather_report
 
 ## Find lines that contain temperature data
