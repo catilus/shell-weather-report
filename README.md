@@ -7,13 +7,14 @@ This project stems from the practice final project from Coursera's *Hands-on Int
 1. [General Overview](#general-overview)
 2. [Installation](#installation)
 3. [Usage](#usage)
-3.1 [Overview](#usage-overview)
-3.2 [Temperature extraction and report generation](#extraction)
-3.3 [Forecasted Accuracies](#accuracy)
-3.4 [Statistics](#stats)
-3.5 [Output examples](#output)
+    3.1 [Overview](#usage-overview)
+    3.2 [Temperature extraction and report generation](#extraction)
+    3.3 [Forecasted Accuracies](#accuracy)
+    3.4 [Statistics](#stats)
+    3.5 [Output examples](#output)
 4. [Integration](#integration)
 5. [Design Decisions] *TBD*
+6. [Testing and Validation](#validation)
 
 ## 1. General Overview <a name="general-overview"></a>
 This command line program allows the user to do a variety of things:
@@ -129,11 +130,15 @@ The script has the following structure:
 ## 4. Integration <a name="integration"></a>
 Right now, the scripts have to be run by hand by typing the following commands in the command line.
 First, navigate to the downloaded folder:
-``` cd ./shell-weather-report  ```
+```bash 
+cd ./shell-weather-report  
+```
 Run the scripts:
-``` ./rx_poc.sh ```
-``` ./fc_accuracy.sh ```
-``` ./weekly_stats.sh ```
+```bash 
+./rx_poc.sh
+./fc_accuracy.sh
+./weekly_stats.sh 
+```
 
 ### Important considerations
 - `fc_accuracy.sh` will only be run successfully if `rx_poc.log` as a minimum of three lines (including headers).
@@ -143,5 +148,14 @@ Run the scripts:
 - [ ] Integrate scripts so `rx_poc.sh` and `fc_accuracy.sh` run together, provided the second scripts has enough data.
 - [ ] Run the integration every day at 12PM, time of the city being fetched.
 
+## 5. Design Decisions <a name="design"></a>
+*Coming soon*
 
+## 6. Validation and Testing <a name="validation"></a>
+This section documents the validation approach taken in this project and the tests being performed.
+
+### 6.1. User input in weather data query
+Strategy:
+Where do we test user input to ensure that the proper weather data is being pulled (e.g. if entering `Country = USA` and `City = Paris`, the weather report being queried is for *Paris, France* since the `curl` command only takes `City` as a variable)? 
+If the user inputs nothing, weather data is queried for the user's local IP.
 
