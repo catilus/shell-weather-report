@@ -7,14 +7,14 @@ This project stems from the practice final project from Coursera's *Hands-on Int
 1. [General Overview](#general-overview)
 2. [Installation](#installation)
 3. [Usage](#usage)
-    3.1 [Overview](#usage-overview)
-    3.2 [Temperature extraction and report generation](#extraction)
-    3.3 [Forecasted Accuracies](#accuracy)
-    3.4 [Statistics](#stats)
-    3.5 [Output examples](#output)
+    1. [Overview](#usage-overview)
+    2. [Temperature extraction and report generation](#extraction)
+    3. [Forecasted Accuracies](#accuracy)
+    4. [Statistics](#stats)
+    5. [Output examples](#output)
 4. [Integration](#integration)
-5. [Design Decisions] *TBD*
-6. [Testing and Validation](#validation)
+5. [Design Considerations](#design) *TBD*
+6. [Testing and Validation](#validation) *TBD*
 
 ## 1. General Overview <a name="general-overview"></a>
 This command line program allows the user to do a variety of things:
@@ -79,6 +79,7 @@ less rx_poc.log
 ```
 Improvement ideas:                                                                     
 - [ ] Ask for user input of city and country + error handling.                         
+- [ ] Add an option to choose unit system (metric or US).
 - [ ] Archive downloaded `weather_report` after each call.                             
 - [ ] Backup and compress archive on a periodic basis.                                 
 - [ ] Check if `weather_report` was generated.                                         
@@ -95,12 +96,14 @@ The script has the following structure:
 1. Extract current temperature and yesterday's forecasted temperature from `rx_poc.log`.
 2. Calculate accuracy.
 3. Assign a label to the calculated accuracy:
-| Range | Label |
-|:-----:|:-----:|
-| +/-1 | Excellent |
-| +/-2 | Good |
-| +/-3 | Fair |
-| +/-4 | Poor |
+
+    | Range | Label |
+    | ----- | ----- |
+    | +/-1 | Excellent |
+    | +/-2 | Good |
+    | +/-3 | Fair |
+    | +/-4 | Poor |
+
 4. Store local date (of fetched city), today's temperature, calculate accuracy and accuracy label into `historical_fc_accuracy.tsv`.
 
 To view the report:
@@ -148,8 +151,13 @@ Run the scripts:
 - [ ] Integrate scripts so `rx_poc.sh` and `fc_accuracy.sh` run together, provided the second scripts has enough data.
 - [ ] Run the integration every day at 12PM, time of the city being fetched.
 
-## 5. Design Decisions <a name="design"></a>
-*Coming soon*
+## 5. Design Considerations <a name="design"></a>
+### 5.1. User Requirements
+
+### 5.2. Functional Requirements 
+
+### 5.3. Risk Assessment
+
 
 ## 6. Validation and Testing <a name="validation"></a>
 This section documents the validation approach taken in this project and the tests being performed.
