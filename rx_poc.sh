@@ -19,6 +19,7 @@ read -p "Enter a city > " city
 ## Download weather data (without formatting) into weather_report file
 echo "Fetching weather data for $city, $country..."
 curl -s wttr.in/$city?T -o weather_report
+echo "Weather data was curled for: $(grep 'Location' weather_report)"
 
 ## Find lines that contain temperature data
 # Store temperature (T) unit into a variable for stdout formatting
